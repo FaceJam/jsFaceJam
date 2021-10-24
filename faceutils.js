@@ -49,11 +49,18 @@ async function getFacialLandmarks(img, cutoutInner) {
             points = cutOutInnerMouth(points);
         }
         let bboxPoints = getBBoxPaddedPoints(points);
+        let avgX = 0;
         for (let i = 0; i < bboxPoints.length; i++) {
             points.push(bboxPoints[i]);
+            avgX += bboxPoints[i][0];
         }
-        faces.push(points);
+        faces.push([avgX/bboxPoints.length, points]);
     }
+    // Sort the faces by the center of their bounding boxes
+    faces.sort((a, b) => a[0]-b[0]);
+    console.log(faces);
+    faces = faces.map((x) => x[1]);
+
     return {"faces":faces, "width":img.width, "height":img.height};
 }
 

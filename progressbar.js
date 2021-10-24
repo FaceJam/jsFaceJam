@@ -21,17 +21,17 @@ function ProgressBar() {
     }
     this.changeMessage = function(message) {
         this.loadString = message;
-        this.waitingDisp.innerHTML = "<h3><font color = \"" + this.loadColor + "\">" + this.loadString;
+        this.waitingDisp.innerHTML = "<font color = \"" + this.loadColor + "\">" + this.loadString;
     }
     this.changeLoad = function() {
         if (!this.loading) {
             return;
         }
-        var s = "<h3><font color = \"" + this.loadColor + "\">" + this.loadString;
+        var s = "<font color = \"" + this.loadColor + "\">" + this.loadString;
         for (var i = 0; i < this.ndots; i++) {
             s += ".";
         }
-        s += "</font></h3>";
+        s += "</font>";
         this.waitingDisp.innerHTML = s;
         if (this.loading) {
             this.ndots = (this.ndots + 1)%12;
@@ -43,13 +43,13 @@ function ProgressBar() {
         if (message === undefined) {
             message = "Ready";
         }
-        this.waitingDisp.innerHTML = "<h3><font color = \"#009900\">" + message + "</font></h3>";
+        this.waitingDisp.innerHTML = "<font color = \"#009900\">" + message + "</font>";
     };
     this.setLoadingFailed = function(message) {
         if (message === undefined) {
             message = "Loading Failed :(";
         }
         this.loading = false;
-        this.waitingDisp.innerHTML = "<h3><font color = \"red\">" + message + "</font></h3>";
+        this.waitingDisp.innerHTML = "<font color = \"red\">" + message + "</font>";
     };
 }

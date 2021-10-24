@@ -2,7 +2,7 @@
  * Canvas for OpenGL Face Rendering
  */
 
-const READY_STR = "Ready! Press Play!  Change expressions/movement in the faces menu in the upper right"
+const READY_STR = "Ready! Press Play!  Change expressions/movement in the faces menu above"
 const VIDEO_IMG_EXT = "jpeg";
 
 // https://semisignal.com/tag/ffmpeg-js/
