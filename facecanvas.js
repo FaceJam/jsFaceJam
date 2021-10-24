@@ -223,7 +223,7 @@ class FaceCanvas {
         for (let i = 0; i < this.faces.length; i++) {
             let opts = {};
             if (i >= this.facesOptions.length) {
-                opts = {"EyebrowEnergy":50, "FaceEnergy":80, "BeatSmoothness":100, "Expression":"happy"};
+                opts = {"EyebrowEnergy":50, "FaceEnergy":80, "BeatSmoothness":100, "Expression":"smile"};
                 this.facesOptions.push(opts);
             }
             else {
