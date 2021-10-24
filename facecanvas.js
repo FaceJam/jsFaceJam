@@ -153,13 +153,16 @@ class FaceCanvas {
         this.res = Math.floor(0.8*Math.min(window.innerWidth, window.innerHeight));
         if (window.mobileCheck() && window.innerWidth > 500) {
             let w1 = Math.round(window.innerWidth/100);
-            console.log(w1);
             let w2 = Math.round(window.innerWidth/60);
             this.gui.width = window.innerWidth/3;
             $('.title').css('font-size', (w2+4)+'px');
+            //$('.title').css('height', parseInt(w2*2)+'px');
             $('.property-name').css('font-size', w2+'px');
-            $('input').css('font-size', w1+'px');
+            $("input[type='text']").css('font-size', w2+'px');
             $('button').css('font-size', w1+'px');
+            $('.slider').css('height', '4em');
+            $('.close-button').css('font-size', w2);
+            $('.option').css('font-size', w2);
         }
         const canvas = this.canvas;
         canvas.width = this.res;
@@ -169,6 +172,7 @@ class FaceCanvas {
         document.getElementById("pageStatusWrapper").style.width = this.res + "px";
         this.audioPlayer.style.width = this.res + "px";
         this.gl.viewport(0, 0, this.res, this.res);
+        requestAnimationFrame(this.repaint.bind(this));
     }
 
     setupAudioHandlers() {

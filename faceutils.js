@@ -58,7 +58,6 @@ async function getFacialLandmarks(img, cutoutInner) {
     }
     // Sort the faces by the center of their bounding boxes
     faces.sort((a, b) => a[0]-b[0]);
-    console.log(faces);
     faces = faces.map((x) => x[1]);
 
     return {"faces":faces, "width":img.width, "height":img.height};
