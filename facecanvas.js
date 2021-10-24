@@ -154,12 +154,13 @@ class FaceCanvas {
         if (window.mobileCheck() && window.innerWidth > 500) {
             let w1 = Math.round(window.innerWidth/100);
             let w2 = Math.round(window.innerWidth/60);
+            let w3 = Math.round(window.innerWidth/40);
             this.gui.width = window.innerWidth/2;
             $('.title').css('font-size', (w2+4)+'px');
             //$('.title').css('height', parseInt(w2*2)+'px');
             $('.property-name').css('font-size', w2+'px');
             $("input[type='text']").css('font-size', w2+'px');
-            $('button').css('font-size', w1+'px');
+            $('button').css('font-size', w3+'px');
             $('.slider').css('height', '4em');
             $('.close-button').css('font-size', w2);
             $('select').css('font-size', w1+'px');
@@ -234,6 +235,7 @@ class FaceCanvas {
         );
         this.downloadMenu.add(this.downloadOptions, "fps", 2, 30).step(1);
         this.downloadMenu.add(this, "saveVideo");
+        this.gui.close();
     }
 
     updateFaceMenus() {
