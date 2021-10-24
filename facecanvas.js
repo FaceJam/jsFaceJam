@@ -130,20 +130,19 @@ class FaceCanvas {
         this.frames = [];
 
         this.active = false;
-        this.sizeElements();
-        window.onresize = this.sizeElements.bind(this);
+        // Initialize WebGL
+        try {
+            this.gl = canvas.getContext("webgl");
+            this.setupShader();
+        } catch (e) {
+            console.log(e);
+        }
+        window.onresize = this.onresize.bind(this);
+        this.onresize();
     }
 
-    sizeElements() {
+    onresize() {
         this.res = Math.floor(0.9*Math.min(window.innerWidth, window.innerHeight));
-        let s = "inner: " + window.innerWidth + ", " + window.innerHeight;
-        s += "<BR>outer: " + window.outerWidth + ", " + window.outerHeight;
-        s += "<BR>document: " + document.documentElement.clientWidth + ", " + document.documentElement.clientHeight;
-        s += "<BR>res = " + this.res;
-        progressBar.changeMessage(s);
-
-
-        
         const canvas = this.canvas;
         canvas.width = this.res;
         canvas.height = this.res;
@@ -151,16 +150,7 @@ class FaceCanvas {
         document.getElementById("imageTable").style.width = this.res + "px";
         document.getElementById("pageStatusWrapper").style.width = this.res + "px";
         this.audioPlayer.style.width = this.res + "px";
-
-        // Initialize WebGL
-        try {
-            this.gl = canvas.getContext("webgl");
-            this.gl.viewportWidth = this.res;
-            this.gl.viewportHeight = this.res;
-            this.setupShader();
-        } catch (e) {
-            console.log(e);
-        }
+        this.gl.viewport(0, 0, this.res, this.res);
     }
 
     setupAudioHandlers() {
