@@ -15,7 +15,7 @@
 
 <script>
     let progressBar = new ProgressBar();
-    let NFrames = 63;
+    let NFrames = 60;
     let frameIdx = 0;
     let frames = [];
 
@@ -33,7 +33,7 @@
         image.onload = function() {
             W = image.width;
             H = image.height;
-            getFacialLandmarks(image).then(result => {
+            getFacialLandmarks(image, false).then(result => {
                 console.log(frameIdx);
                 frames.push(result.faces[0]);
                 frameIdx++;

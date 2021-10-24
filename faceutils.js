@@ -8,10 +8,12 @@ const vec2 = glMatrix.vec2;
 const MODEL_URL = './libs/models/';
 let landmarkModelsLoaded = false;
 
-// Delete landmarks 60 through 67
+// Delete landmarks 
 /**
  * Compute the facial landmarks
  * @param {Image} img Handle to an image on which to compute facial landmarks
+ * @param {boolean} cutoutInner Whether to cutout the inner lip landmarks 
+*                               60 through 67(default true)
  * @returns {   
  *           "faces": A list of facial landmarks of all of the faces present in 
  *                   the image, including the 4 bounding box points for each one
@@ -19,7 +21,10 @@ let landmarkModelsLoaded = false;
  *           "height": Height of the image
  *          }
  */
-async function getFacialLandmarks(img) {
+async function getFacialLandmarks(img, cutoutInner) {
+    if (cutoutInner === undefined) {
+        cutoutInner = true;
+    }
     if (!landmarkModelsLoaded) {
         progressBar.loadString = "Loading face model (this will take a moment the first time)";
         await faceapi.loadSsdMobilenetv1Model(MODEL_URL);
@@ -40,7 +45,9 @@ async function getFacialLandmarks(img) {
             Y = fullFaceDescriptions[f].landmarks.positions[i].y;
             points.push([X, Y]);
         }
-        points = cutOutInnerMouth(points);
+        if (cutoutInner) {
+            points = cutOutInnerMouth(points);
+        }
         let bboxPoints = getBBoxPaddedPoints(points);
         for (let i = 0; i < bboxPoints.length; i++) {
             points.push(bboxPoints[i]);

@@ -118,6 +118,7 @@ def getFaceModel(filepath, stabilize = False, doPlot = False):
             plt.savefig("Processed{}.png".format(i), bbox_inches='tight')
     return aftermedian
 
-res = getFaceModel("smile.json", stabilize=True, doPlot=False)
-res = np.round(res, 1).tolist()
-json.dump(res, open("smileres.json", "w"))
+for expr in ["smile", "catface"]:
+    res = getFaceModel("{}.json".format(expr), stabilize=True, doPlot=False)
+    res = np.round(res, 1).tolist()
+    json.dump(res, open("{}res.json".format(expr), "w"))

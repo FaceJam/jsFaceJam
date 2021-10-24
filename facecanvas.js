@@ -142,7 +142,7 @@ class FaceCanvas {
     }
 
     onresize() {
-        this.res = Math.floor(0.9*Math.min(window.innerWidth, window.innerHeight));
+        this.res = Math.floor(0.8*Math.min(window.innerWidth, window.innerHeight));
         const canvas = this.canvas;
         canvas.width = this.res;
         canvas.height = this.res;
@@ -604,7 +604,7 @@ class FaceCanvas {
         this.lastTime = this.thisTime;
         let time = this.audioPlayer.currentTime;
         if (this.capturing) {
-            let videoFps = parseInt(this.fpsSlider.value);
+            let videoFps = this.downloadOptions.fps;
             time = this.capFrame/videoFps;
         }
 
