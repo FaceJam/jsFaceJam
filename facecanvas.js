@@ -216,11 +216,18 @@ class FaceCanvas {
             this.facesMenu.removeFolder(this.facesSubMenus[i]);
         }
         this.facesSubMenus = [];
-        this.facesOptions = [];
         // Create a new menu for each face
         for (let i = 0; i < this.faces.length; i++) {
-            let opts = {"EyebrowEnergy":50, "FaceEnergy":80, "BeatSmoothness":100, "Expression":"happy"};
-            this.facesOptions.push(opts);
+            let opts = {};
+            if (i >= this.facesOptions.length) {
+                opts = {"EyebrowEnergy":50, "FaceEnergy":80, "BeatSmoothness":100, "Expression":"happy"};
+                this.facesOptions.push(opts);
+            }
+            else {
+                // Reuse options from last time, which is good if we're
+                // cycling through different images with a single face
+                opts = this.facesOptions[i]; 
+            }
             let menu = this.facesMenu.addFolder("Face " + (i+1));
             this.facesSubMenus.push(menu);
             menu.add(opts, "EyebrowEnergy", 0, 100).step(1);
