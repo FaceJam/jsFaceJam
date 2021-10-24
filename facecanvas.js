@@ -135,13 +135,15 @@ class FaceCanvas {
     }
 
     sizeElements() {
+        this.res = Math.floor(0.9*Math.min(window.outerWidth, window.outerHeight));
         let s = "inner: " + window.innerWidth + ", " + window.innerHeight;
         s += "<BR>outer: " + window.outerWidth + ", " + window.outerHeight;
         s += "<BR>document: " + document.documentElement.clientWidth + ", " + document.documentElement.clientHeight;
+        s += "<BR>res = " + this.res;
         progressBar.changeMessage(s);
 
 
-        this.res = Math.floor(0.9*Math.min(window.outerWidth, window.outerHeight));
+        
         const canvas = this.canvas;
         canvas.width = this.res;
         canvas.height = this.res;
