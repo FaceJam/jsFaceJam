@@ -154,7 +154,7 @@ class FaceCanvas {
         if (window.mobileCheck() && window.innerWidth > 500) {
             let w1 = Math.round(window.innerWidth/100);
             let w2 = Math.round(window.innerWidth/60);
-            this.gui.width = window.innerWidth/3;
+            this.gui.width = window.innerWidth/2;
             $('.title').css('font-size', (w2+4)+'px');
             //$('.title').css('height', parseInt(w2*2)+'px');
             $('.property-name').css('font-size', w2+'px');
@@ -162,7 +162,8 @@ class FaceCanvas {
             $('button').css('font-size', w1+'px');
             $('.slider').css('height', '4em');
             $('.close-button').css('font-size', w2);
-            $('.option').css('font-size', w2);
+            $('select').css('font-size', w1+'px');
+            $('option').css('font-size', w1+'px');
         }
         const canvas = this.canvas;
         canvas.width = this.res;
@@ -259,6 +260,7 @@ class FaceCanvas {
             menu.add(opts, "FaceEnergy", 0, 100).step(1);
             menu.add(opts, "Expression", EXPRESSION_TYPES);
         }
+        this.onresize();
     }
 
     setActive() {
