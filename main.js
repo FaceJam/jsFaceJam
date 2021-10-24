@@ -83,7 +83,7 @@ tuneInput.addEventListener('change', function(e) {
 
 function startRecording() {
     progressBar.startLoading();
-    audio.startRecording("start", "stop");
+    audio.startRecording("startRecording", "stopRecording");
     progressBar.loadString = "Recording audio";
 }
 function stopRecording() {
@@ -92,6 +92,7 @@ function stopRecording() {
         faceCanvas.connectAudio(audio);
     });
 }
+document.getElementById("stopRecording").style.display = "none";
 
 $('.imageTable').hide();
 $('.toggle-image').on('click',function() {					
