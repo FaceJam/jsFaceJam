@@ -91,9 +91,6 @@ class FaceCanvas {
         let canvas = document.getElementById('FaceCanvas');
         this.res = Math.floor(0.8*Math.min(window.outerWidth, window.outerHeight));
         //this.res = Math.floor(0.8*Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight));
-        console.log("innerWidth: " + window.innerWidth + ", " + window.innerHeight);
-        console.log("outerWidth: " + window.outerWidth + ", " + window.outerHeight);
-        console.log("documentElement: " + document.documentElement.clientWidth + ", " + document.documentElement.clientHeight);
         canvas.width = this.res;
         canvas.height = this.res;
         document.getElementById("audioTable").style.width = this.res + "px";
