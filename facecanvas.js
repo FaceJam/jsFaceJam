@@ -131,7 +131,7 @@ class FaceCanvas {
 
         this.active = false;
         this.sizeElements();
-        //window.onresize = this.sizeElements.bind(this);
+        window.onresize = this.sizeElements.bind(this);
     }
 
     sizeElements() {
