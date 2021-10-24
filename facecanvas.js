@@ -89,7 +89,7 @@ class FaceCanvas {
     constructor(hop, win) {
         const that = this;
         let canvas = document.getElementById('FaceCanvas');
-        this.res = Math.floor(0.8*Math.min(window.innerWidth, window.innerHeight));
+        this.res = Math.floor(0.8*Math.min(window.outerWidth, window.outerHeight));
         canvas.width = this.res;
         canvas.height = this.res;
         document.getElementById("audioTable").style.width = this.res + "px";
