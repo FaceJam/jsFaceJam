@@ -135,7 +135,7 @@ class FaceCanvas {
     }
 
     sizeElements() {
-        this.res = Math.floor(0.9*Math.min(window.outerWidth, window.outerHeight));
+        this.res = Math.floor(0.9*Math.min(window.innerWidth, window.innerHeight));
         let s = "inner: " + window.innerWidth + ", " + window.innerHeight;
         s += "<BR>outer: " + window.outerWidth + ", " + window.outerHeight;
         s += "<BR>document: " + document.documentElement.clientWidth + ", " + document.documentElement.clientHeight;
