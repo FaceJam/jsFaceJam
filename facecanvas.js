@@ -166,6 +166,10 @@ class FaceCanvas {
             $('.close-button').css('font-size', w2);
             $('select').css('font-size', w1+'px');
             $('option').css('font-size', w1+'px');
+            const faceMenu = document.getElementsByClassName('close-button close-bottom')[0]
+            faceMenu.style['font-size'] = w3+'px';
+            faceMenu.style['height'] = '1.5em';
+            const faceMenuTxt = document.getElementsByClassName("menuOpenerText")
         }
         const canvas = this.canvas;
         canvas.width = this.res;
