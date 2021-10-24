@@ -2,6 +2,7 @@
  * Canvas for OpenGL Face Rendering
  */
 
+const READY_STR = "Ready! Press Play!  Change expressions/movement in the faces menu in the upper right"
 const VIDEO_IMG_EXT = "jpeg";
 
 // https://semisignal.com/tag/ffmpeg-js/
@@ -320,8 +321,10 @@ class FaceCanvas {
         }).then(() => {
             if (this.facesReady) {
                 progressBar.changeToReady();
+                progressBar.changeMessage(READY_STR);
             }
             else {
+                progressBar.changeToReady();
                 progressBar.changeMessage("Finished audio, waiting for face");
             }
             that.audioReady = true;
@@ -490,9 +493,11 @@ class FaceCanvas {
                 this.facesReady = true;
                 if (this.audioReady) {
                     progressBar.changeToReady();
+                    progressBar.changeMessage(READY_STR);
                 }
                 else if (progressBar.loading) {
-                    progressBar.changeMessage("Finished facial landmarks, waiting for audio");
+                    progressBar.changeToReady();
+                    progressBar.changeMessage("Finished face, waiting for audio");
                 }
             }
         }
