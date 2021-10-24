@@ -5,15 +5,10 @@
     window.requestAnimationFrame = requestAnimationFrame;
   })();
 
+let progressBar = new ProgressBar();
 let faceCanvas = new FaceCanvas();
 faceCanvas.setActive();
 let audio = new SampledAudio();
-let progressBar = new ProgressBar();
-
-let s = "inner: " + window.innerWidth + ", " + window.innerHeight;
-s += "<BR>outer: " + window.outerWidth + ", " + window.outerHeight;
-s += "<BR>document: " + document.documentElement.clientWidth + ", " + document.documentElement.clientHeight;
-progressBar.changeMessage(s);
 
 /********************************************************
  *                 PICTURE MENUS                        *

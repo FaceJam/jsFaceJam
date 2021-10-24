@@ -89,14 +89,7 @@ class FaceCanvas {
     constructor(hop, win) {
         const that = this;
         let canvas = document.getElementById('FaceCanvas');
-        this.res = Math.floor(0.8*Math.min(window.outerWidth, window.outerHeight));
-        //this.res = Math.floor(0.8*Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight));
-        canvas.width = this.res;
-        canvas.height = this.res;
-        document.getElementById("audioTable").style.width = this.res + "px";
-        document.getElementById("imageTable").style.width = this.res + "px";
-        document.getElementById("pageStatusWrapper").style.width = this.res + "px";
-
+        
         canvas.addEventListener("contextmenu", function(e){ e.stopPropagation(); e.preventDefault(); return false; }); 
         this.canvas = canvas;
         this.shader = null;
@@ -109,7 +102,6 @@ class FaceCanvas {
 
         this.audio = null; // SampledAudio object
         this.audioPlayer = document.getElementById("audioPlayer");
-        this.audioPlayer.style.width = this.res + "px";
         this.audioReady = false;
         if (hop === undefined) {
             hop = 512;
@@ -137,8 +129,26 @@ class FaceCanvas {
         this.capFrame = 0;
         this.frames = [];
 
-
         this.active = false;
+        this.sizeElements();
+        //window.onresize = this.sizeElements.bind(this);
+    }
+
+    sizeElements() {
+        let s = "inner: " + window.innerWidth + ", " + window.innerHeight;
+        s += "<BR>outer: " + window.outerWidth + ", " + window.outerHeight;
+        s += "<BR>document: " + document.documentElement.clientWidth + ", " + document.documentElement.clientHeight;
+        progressBar.changeMessage(s);
+
+
+        this.res = Math.floor(0.9*Math.min(window.outerWidth, window.outerHeight));
+        const canvas = this.canvas;
+        canvas.width = this.res;
+        canvas.height = this.res;
+        document.getElementById("audioTable").style.width = this.res + "px";
+        document.getElementById("imageTable").style.width = this.res + "px";
+        document.getElementById("pageStatusWrapper").style.width = this.res + "px";
+        this.audioPlayer.style.width = this.res + "px";
 
         // Initialize WebGL
         try {
