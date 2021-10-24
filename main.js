@@ -93,9 +93,18 @@ function stopRecording() {
     });
 }
 
-/********************************************************
- *                  OTHER BUTTONS                       *
- ********************************************************/
-function downloadVideo() {
-    faceCanvas.startVideoCapture();
-}
+$('.imageTable').hide();
+$('.toggle-image').on('click',function() {					
+  $(this).text(function(_,currentText){
+    return currentText == "▼ Choose Face(s) Image" ? "▲ Choose Face(s) Image" : "▼ Choose Face(s) Image";
+  });
+  $('.imageTable').toggle('slow');
+});
+
+$('.audioTable').hide();
+$('.toggle-audio').on('click',function() {					
+  $(this).text(function(_,currentText){
+    return currentText == "▼ Choose Tune" ? "▲ Choose Tune" : "▼ Choose Tune";
+  });
+  $('.audioTable').toggle('slow');
+});

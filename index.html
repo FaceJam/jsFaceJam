@@ -1,6 +1,8 @@
 <html>
 <head>
+    <link rel="stylesheet" href="assets/css/main.css" />
     <script src="libs/jquery-3.5.1.min.js"></script>
+    <script src="libs/dat.gui.min.js"></script>
     <script src="libs/face-api.js"></script>
     <script src="libs/face-api.min.js"></script>
     <script src="libs/numeric-1.2.6.min.js"></script>
@@ -22,105 +24,85 @@
     <script src="facecanvas.js"></script>
     <script src="debugcanvas.js"></script>
     <script src="progressbar.js"></script>
-    <link rel="stylesheet" href="assets/css/main.css" />
+
     <meta charset="utf-8" />
 </head>
 <body>
 
+    
 
-    <table>
-        <tr>
-            <td>
-                <div id = "spotifyDiv"></div>
-            </td>
-            <td><b>Example Tunes 🎵</b>
+    <button class="toggle-image">&#9660; Step 1: Choose Face(s) Image</button>
+    <div class="imageTable" id="imageTable">
+        <table>
+            <tr>
+            <td colspan = "2"><b>Example Images 🎨</b>
                 <div class = "select-wrapper">
-                    <select id="ExampleTunes" name = "ExampleTunes">
+                    <select id="ExamplePictures" name = "ExamplePictures">
                         <option disabled selected value> -- select an option -- </option>
-                        <option value = "ExampleTunes/rickroll.mp3">Rick Roll</option>
-                        <option value = "ExampleTunes/numanuma.mp3">Numa Numa</option>
-                        <option value = "ExampleTunes/barry.mp3">Barry White</option>
-                        <option value = "ExampleTunes/beyonce.mp3">Beyoncé</option>
-                        <option value = "ExampleTunes/erykah.mp3">Erykah Badu</option>
-                        <option value = "ExampleTunes/birthday.mp3">Birthday</option>
+                        <option value = "ExamplePhotos/hannibal.jpg">Hannibal Buress</option>
+                        <option value = "ExamplePhotos/taylor.png">Taylor Swift</option>
+                        <option value = "ExamplePhotos/Zach.png">Zach Galifanakis</option>
+                        <option value = "ExamplePhotos/tiffany.png">Tiffany Haddish</option>
+                        <option value = "ExamplePhotos/Eric.jpg">Eric Andre</option>
+                        <option value = "ExamplePhotos/Amy.jpg">Amy Schumer</option>
+                        <option value = "ExamplePhotos/TheRock.png">Dwayne Johnson</option>
+                        <option value = "ExamplePhotos/Sarah_Silverman_DNC_July_2016.jpg">Sarah Silverman</option>
+                        <option value = "ExamplePhotos/Parker.png">Parker Fairchild</option>
+                        <option value = "ExamplePhotos/Cristiano.jpg">Cristiano D'Angelo</option>
+                        <option value = "ExamplePhotos/james.png">James Tralie</option>
+                        <option value = "ExamplePhotos/profs.png">Profs</option>
+                        <option value = "ExamplePhotos/birthday.png">Birthday</option>
                     </select>
                 </div>
             </td>
-            <td><b>Upload Tune:</b> <input type = "file" id = "tuneInput"></td>
-            <td>
-                <p><b>Record</b></p>
-                <button id="start" style="width:50px; padding:0" onclick="startRecording()"><h1>⏺️</h1></button>
-                <button id="stop" style="width:50px; padding:0" onclick="stopRecording()"><h1>⏹️</h1></button>
-            </td>
-        </tr>
-        <tr>
-        <td colspan = "2"><b>Example Images 🎨</b>
-            <div class = "select-wrapper">
-                <select id="ExamplePictures" name = "ExamplePictures">
-                    <option disabled selected value> -- select an option -- </option>
-                    <option value = "ExamplePhotos/hannibal.jpg">Hannibal Buress</option>
-                    <option value = "ExamplePhotos/taylor.png">Taylor Swift</option>
-                    <option value = "ExamplePhotos/Zach.png">Zach Galifanakis</option>
-                    <option value = "ExamplePhotos/tiffany.png">Tiffany Haddish</option>
-                    <option value = "ExamplePhotos/Eric.jpg">Eric Andre</option>
-                    <option value = "ExamplePhotos/Amy.jpg">Amy Schumer</option>
-                    <option value = "ExamplePhotos/TheRock.png">Dwayne Johnson</option>
-                    <option value = "ExamplePhotos/Sarah_Silverman_DNC_July_2016.jpg">Sarah Silverman</option>
-                    <option value = "ExamplePhotos/Parker.png">Parker Fairchild</option>
-                    <option value = "ExamplePhotos/Cristiano.jpg">Cristiano D'Angelo</option>
-                    <option value = "ExamplePhotos/james.png">James Tralie</option>
-                    <option value = "ExamplePhotos/profs.png">Profs</option>
-                    <option value = "ExamplePhotos/birthday.png">Birthday</option>
-                </select>
-            </div>
-        </td>
-        <td><b>Upload Image:</b> <input type = "file" id = "imageInput"></td>
-        </tr>
+            <td><b>Upload Image / Take Picture:</b> <input type = "file" id = "imageInput"></td>
+            </tr>
+        </table>
+    </div>
 
-        <tr><td colspan = "4">
-            <h3><p id = "pagestatus">😱Welcome to FaceJam!🙀  Please choose an image and a tune 🎵 to start</p></h3>
-        </td></tr>
+    <button class="toggle-audio">&#9660; Step 2: Choose Tune</button>
+    <div class="audioTable" id="audioTable">
+        <table>
+            <tr>
+                <td>
+                    <div id = "spotifyDiv"></div>
+                </td>
+                <td><b>Example Tunes 🎵</b>
+                    <div class = "select-wrapper">
+                        <select id="ExampleTunes" name = "ExampleTunes">
+                            <option disabled selected value> -- select an option -- </option>
+                            <option value = "ExampleTunes/rickroll.mp3">Rick Roll</option>
+                            <option value = "ExampleTunes/numanuma.mp3">Numa Numa</option>
+                            <option value = "ExampleTunes/barry.mp3">Barry White</option>
+                            <option value = "ExampleTunes/beyonce.mp3">Beyoncé</option>
+                            <option value = "ExampleTunes/erykah.mp3">Erykah Badu</option>
+                            <option value = "ExampleTunes/birthday.mp3">Birthday</option>
+                        </select>
+                    </div>
+                </td>
+                <td><b>Upload Tune:</b> <input type = "file" id = "tuneInput"></td>
+                <td>
+                    <p><b>Record</b></p>
+                    <button id="start" style="width:50px; padding:0" onclick="startRecording()"><h1>⏺️</h1></button>
+                    <button id="stop" style="width:50px; padding:0" onclick="stopRecording()"><h1>⏹️</h1></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table id="pageStatusWrapper">
         <tr>
-            <td colspan="4">
-                <audio controls id="audioPlayer" style="width: 80%;">
-                  Your browser does not support the audio element.
-                  </audio> 
-            </td>
+            <td><span id="pagestatus"><h4>😱Welcome to FaceJam!🙀  Please choose an image and a tune 🎵 to start</h4></span></td>
         </tr>
-        <tr>
-            <td>
-                <input type="range" min="0" max="100" value="40" class="slider" id="eyebrowEnergySlider">
-                <label for="eyebrowEnergySlider">Eyebrow Energy</label>
-            </td>
-            <td>
-                <input type="range" min="0" max="100" value="20" class="slider" id="faceEnergySlider">
-                <label for="faceEnergySlider">Face Energy</label>
-            </td>
-            <td>
-                <input type="range" min="0" max="100" value="20" class="slider" id="smoothnessSlider">
-                <label for="smoothnessSlider">Eyebrow Beat Smoothness</label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button id = "download" onclick="downloadVideo()">Download Video</button>
-                <div id = "downloadLink"></div>
-            </td>
-            <td>
-                <input type="range" min="64" max="512" class="slider" id="resolutionSlider">
-                <label for="resolutionSlider" id="resolutionSliderLabel"></label>
-            </td>
-            <td>
-                <input type="range" min="2" max="30" class="slider" id="fpsSlider">
-                <label for="fpsSlider" id="fpsSliderLabel"></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4">
-                <canvas id = "FaceCanvas" style="border:1px solid #000000;">
-                </canvas>
-            </td>
-        </tr>
+    </table>
+
+        <audio controls id="audioPlayer" style="width: 80%;">
+            Your browser does not support the audio element.
+        </audio> 
+
+        <div id = "downloadLink"></div>
+        
+        <canvas id = "FaceCanvas" style="border:1px solid #000000;"> </canvas>
     </table>
 
 

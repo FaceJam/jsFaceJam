@@ -92,6 +92,9 @@ class FaceCanvas {
         this.res = Math.floor(0.8*Math.min(window.innerWidth, window.innerHeight));
         canvas.width = this.res;
         canvas.height = this.res;
+        document.getElementById("audioTable").style.width = this.res + "px";
+        document.getElementById("imageTable").style.width = this.res + "px";
+        document.getElementById("pageStatusWrapper").style.width = this.res + "px";
 
         canvas.addEventListener("contextmenu", function(e){ e.stopPropagation(); e.preventDefault(); return false; }); 
         this.canvas = canvas;
@@ -99,11 +102,13 @@ class FaceCanvas {
         this.texture = null; // Regular texture
         this.wtexture = null; // Watermarked texture
         this.faces = []; // List of face points
+        this.facesOptions = []; // List of face option objects (energy, smoothness, expression)
         this.imgwidth = 0;
         this.imgheight = 0;
 
         this.audio = null; // SampledAudio object
         this.audioPlayer = document.getElementById("audioPlayer");
+        this.audioPlayer.style.width = this.res + "px";
         this.audioReady = false;
         if (hop === undefined) {
             hop = 512;
@@ -117,32 +122,7 @@ class FaceCanvas {
         this.beatRamp = [];
         this.activation = [];
         this.setupAudioHandlers();
-
-        this.eyebrowEnergySlider = document.getElementById("eyebrowEnergySlider");
-        this.eyebrowEnergySlider.value = 40;
-        this.faceEnergySlider = document.getElementById("faceEnergySlider");
-        this.faceEnergySlider.value = 100;
-        this.smoothnessSlider = document.getElementById("smoothnessSlider");
-        this.smoothnessSlider.value = 100;
-        this.resolutionSlider = document.getElementById("resolutionSlider");
-        this.resolutionSlider.value = 256;
-        this.resolutionSlider.onchange = function() {
-            let val = that.resolutionSlider.value;
-            // Round to nearest power of 2
-            val = Math.round(Math.log(val)/Math.log(2));
-            val = Math.pow(2, val);
-            that.resolutionSlider.value = val;
-            document.getElementById("resolutionSliderLabel").innerHTML = "Download Resolution " + val + "x" + val;
-        }
-        this.resolutionSlider.onchange();
-        this.fpsSlider = document.getElementById("fpsSlider");
-        this.fpsSlider.value = 15;
-        this.fpsSlider.onchange = function() {
-            let val = that.fpsSlider.value;
-            document.getElementById("fpsSliderLabel").innerHTML = "Download fps " + val;
-        }
-        this.fpsSlider.onchange();
-
+        this.initializeMenus();
 
         this.time = 0.0;
         this.facesReady = false;
@@ -206,6 +186,47 @@ class FaceCanvas {
                 printMissing();
             }
         });
+    }
+
+    initializeMenus() {
+        const that = this;
+        this.gui = new dat.GUI();
+        const gui = this.gui;
+        this.facesMenu = gui.addFolder("Faces");
+        this.facesSubMenus = [];
+        this.downloadOptions = {
+            "resolution":256, "fps":15
+        }
+        this.downloadMenu = gui.addFolder("Download And Share");
+        // Enforce that the resolution is a power of 2
+        this.downloadMenu.add(this.downloadOptions, "resolution", 64, 512).onChange(
+            function(v) {
+                let val = Math.round(Math.log(v)/Math.log(2));
+                val = Math.pow(2, val);
+                that.downloadOptions.resolution = val;
+            }
+        );
+        this.downloadMenu.add(this.downloadOptions, "fps", 2, 30).step(1);
+        this.downloadMenu.add(this, "saveVideo");
+    }
+
+    updateFaceMenus() {
+        // Remove menus that were there before
+        for (let i = 0; i < this.facesSubMenus.length; i++) {
+            this.facesMenu.removeFolder(this.facesSubMenus[i]);
+        }
+        this.facesSubMenus = [];
+        this.facesOptions = [];
+        // Create a new menu for each face
+        for (let i = 0; i < this.faces.length; i++) {
+            let opts = {"EyebrowEnergy":50, "FaceEnergy":80, "BeatSmoothness":100, "Expression":"happy"};
+            this.facesOptions.push(opts);
+            let menu = this.facesMenu.addFolder("Face " + (i+1));
+            this.facesSubMenus.push(menu);
+            menu.add(opts, "EyebrowEnergy", 0, 100).step(1);
+            menu.add(opts, "FaceEnergy", 0, 100).step(1);
+            menu.add(opts, "Expression", EXPRESSION_TYPES);
+        }
     }
 
     setActive() {
@@ -455,6 +476,7 @@ class FaceCanvas {
                 if (this.active) {
                     requestAnimationFrame(this.repaint.bind(this));
                 }
+                this.updateFaceMenus();
                 this.facesReady = true;
                 if (this.audioReady) {
                     progressBar.changeToReady();
@@ -472,7 +494,7 @@ class FaceCanvas {
     /**
      * Begin the process of capturing the video frame by frame
      */
-    startVideoCapture() {
+    saveVideo() {
         if (!this.facesReady) {
             progressBar.setLoadingFailed("Need to select face image first!");
         }
@@ -543,11 +565,12 @@ class FaceCanvas {
         let mp3bytes = getMP3Binary(this.audio.samples, this.audio.sr);
         that.frames.push({name: "audio.mp3", data: mp3bytes});
         // Call ffmpeg
-        let videoRes = parseInt(that.resolutionSlider.value);
+        let videoRes = that.downloadOptions.resolution;
+        let fps = that.downloadOptions.fps;
         worker.postMessage({
             type: 'run',
             TOTAL_MEMORY: 256*1024*1024,
-            arguments: ["-i", "audio.mp3", "-r", ""+that.fpsSlider.value, "-i", "img%03d.jpeg", "-c:v", "libx264", "-crf", "1", "-vf", "scale="+videoRes+":"+videoRes, "-pix_fmt", "yuv420p", "-vb", "20M", "facejam.mp4"],
+            arguments: ["-i", "audio.mp3", "-r", ""+fps, "-i", "img%03d.jpeg", "-c:v", "libx264", "-crf", "1", "-vf", "scale="+videoRes+":"+videoRes, "-pix_fmt", "yuv420p", "-vb", "20M", "facejam.mp4"],
             MEMFS: that.frames
         });        
 
@@ -579,22 +602,21 @@ class FaceCanvas {
         if (this.active && this.faces.length > 0) {
             // Store first frame of the expression, then do point location
             // and map through Barycentric coordinates to the new neutral face
-            let smoothness = that.smoothnessSlider.value/100;
-            let eyebrow = 0;
-            let activation = 0;
+            let idx = 0;
             if (this.audioReady && this.facesReady) {
-                let idx = Math.floor(time*this.audio.sr/this.hop);
-                if (idx < this.novfn.length) {
-                    eyebrow = smoothness*this.beatRamp[idx] + (1-smoothness)*this.novfn[idx];
-                    eyebrow *= 0.25*this.eyebrowEnergySlider.value;
-                }
-                if (idx < this.activation.length) {
-                    activation = this.activation[idx]*this.faceEnergySlider.value/100;
-                }
+                idx = Math.floor(time*this.audio.sr/this.hop);
             }
             let faces = [];
             for (let f = 0; f < this.faces.length; f++) {
-                faces[f] = transferFacialExpression("happy", this.faces[f], activation, eyebrow);
+                let eyebrow = 0;
+                let activation = 0;
+                if (idx < this.novfn.length) {
+                    eyebrow = 0.25*this.beatRamp[idx]*this.facesOptions[f].EyebrowEnergy;
+                }
+                if (idx < this.activation.length) {
+                    activation = this.activation[idx]*this.facesOptions[f].FaceEnergy/100;
+                }
+                faces[f] = transferFacialExpression(this.facesOptions[f].Expression, this.faces[f], activation, eyebrow);
             }
             this.updateVertexBuffer(faces);
         }
