@@ -607,6 +607,10 @@ class FaceCanvas {
             }
         };
         // Setup audio blob
+        // Scale down audio to avoid clipping
+        for (let i = 0; i < this.audio.samples.length; i++) {
+            this.audio.samples[i] *= 0.8;
+        }
         let mp3bytes = getMP3Binary(this.audio.samples, this.audio.sr);
         that.frames.push({name: "audio.mp3", data: mp3bytes});
         // Call ffmpeg
@@ -618,8 +622,6 @@ class FaceCanvas {
             arguments: ["-i", "audio.mp3", "-r", ""+fps, "-i", "img%03d.jpeg", "-c:v", "libx264", "-crf", "1", "-vf", "scale="+videoRes+":"+videoRes, "-pix_fmt", "yuv420p", "-vb", "20M", "facejam.mp4"],
             MEMFS: that.frames
         });        
-
-
     }
 
     repaint() {
