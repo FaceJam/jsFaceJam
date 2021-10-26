@@ -57,14 +57,12 @@ exampleTuneMenu.addEventListener('change', function(e){
     progressBar.startLoading();
 });
 
-const clientID = "3e2dfda5badd4c5bb3a0945288629c1e";
-const redirectURI = "https://www.facejam.app";
-let spotify = new Spotify("spotifyDiv", clientID, redirectURI, audio, function() {
+let appleMusic = new AppleMusic("appleMusicDiv", audio, function() {
     progressBar.changeToReady("Finished loading audio");
     faceCanvas.connectAudio(audio);
 },
 function() {
-    progressBar.setLoadingFailed("Failed to load Spotify audio 😿");
+    progressBar.setLoadingFailed("Failed to load audio from Apple Music 😿");
 });
 
 let tuneInput = document.getElementById('tuneInput');
