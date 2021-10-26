@@ -56,7 +56,7 @@ exampleTuneMenu.addEventListener('change', function(e){
     progressBar.loadString = "Loading audio";
     progressBar.startLoading();
 });
-
+APPLE_LOGO_URL = "Apple_Music_logo.svg";
 let appleMusic = new AppleMusic("appleMusicDiv", audio, function() {
     progressBar.changeToReady("Finished loading audio");
     faceCanvas.connectAudio(audio);
