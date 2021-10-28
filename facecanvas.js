@@ -248,6 +248,8 @@ class FaceCanvas {
         for (let i = 0; i < this.facesSubMenus.length; i++) {
             this.facesMenu.removeFolder(this.facesSubMenus[i]);
         }
+        this.gui.open();
+        this.facesMenu.open();
         this.facesSubMenus = [];
         // Create a new menu for each face
         for (let i = 0; i < this.faces.length; i++) {
@@ -266,6 +268,7 @@ class FaceCanvas {
             menu.add(opts, "EyebrowEnergy", 0, 100).step(1);
             menu.add(opts, "FaceEnergy", 0, 100).step(1);
             menu.add(opts, "Expression", EXPRESSION_TYPES);
+            menu.open();
         }
         this.onresize();
     }
