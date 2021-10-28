@@ -293,15 +293,28 @@ function makeWatermark(image) {
     let res = Math.max(image.width, image.height);
     let dw = image.width/res;
     let dh = image.height/res;
-    res = Math.min(1024, res);
+    res = 1024;
+    const startx = 20, starty = 40;
     offscreenCanvas.width = res;
     offscreenCanvas.height = res;
     let ctx = offscreenCanvas.getContext("2d");
     ctx.clearRect(0, 0, res, res);
     ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, res*dw, res*dh);
-    ctx.font = Math.round(24*res/512)+"px Arial";
-    ctx.strokeText("www.facejam.app", 10*res/512, 20*res/512);
-
+    let imageData = ctx.getImageData(startx, starty, 200, 30);
+    let avgs = [0, 0, 0];
+    for (let i = 0; i < imageData.data.length; i += 4) {
+        for (let k = 0; k < 3; k++) {
+            avgs[k] += imageData.data[i+k];
+        }
+    }
+    for (let k = 0; k < 3; k++) {
+        // Invert the color
+        avgs[k] = Math.floor(255 - avgs[k]/(imageData.data.length/4));
+    }
+    ctx.fillStyle = "rgba(" + avgs[0] + "," + avgs[1] + "," + avgs[2]+",1)";
+    ctx.font = "48px Arial";
+    ctx.fillText("www.facejam.app", startx, starty);
+    
     let squareImg = new Image();
     squareImg.src = offscreenCanvas.toDataURL();
     squareImg.onload = function() {
