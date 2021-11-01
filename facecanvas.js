@@ -122,6 +122,8 @@ class FaceCanvas {
         this.novfn = [];
         this.beatRamp = [];
         this.activation = [];
+        this.liveAudio = false;
+        this.phase = 0;
         this.setupAudioHandlers();
         this.initializeMenus();
 
@@ -372,9 +374,27 @@ class FaceCanvas {
      * @param {SampledAudio} audio A SampledAudio object with loaded audio samples
      */
     connectAudio(audio) {
+        this.liveAudio = false;
         this.audio = audio;
         audio.connectAudioPlayer(this.audioPlayer);
         this.computeAudioFeatures();
+    }
+
+    /**
+     * Start a live audio recording
+     * @param {SampledAudio} audio Handle to object where audio will be stored
+     */
+    liveRecord(audio) {
+        const that = this;
+        this.audio = audio;
+        progressBar.startLoading();
+        let fac = 4;
+        this.beat = new OnlineBeat(audio, this.hop, fac);
+        this.liveAudio = true;
+        this.beat.startRecording("startLiveRecording", "stopLiveRecording", this.win, 3, 1, function(phase) {
+            requestAnimationFrame(that.repaint.bind(that));
+        });
+        progressBar.loadString = "Recording audio live";
     }
 
     updateTexture(texture) {
@@ -660,11 +680,16 @@ class FaceCanvas {
             for (let f = 0; f < this.faces.length; f++) {
                 let eyebrow = 0;
                 let activation = 0;
-                if (idx < this.novfn.length) {
-                    eyebrow = 0.25*this.beatRamp[idx]*this.facesOptions[f].EyebrowEnergy;
+                if (this.liveAudio) {
+                    eyebrow = 0.25*this.beat.phase*this.facesOptions[f].EyebrowEnergy;
                 }
-                if (idx < this.activation.length) {
-                    activation = this.activation[idx]*this.facesOptions[f].FaceEnergy/100;
+                else {
+                    if (idx < this.novfn.length) {
+                        eyebrow = 0.25*this.beatRamp[idx]*this.facesOptions[f].EyebrowEnergy;
+                    }
+                    if (idx < this.activation.length) {
+                        activation = this.activation[idx]*this.facesOptions[f].FaceEnergy/100;
+                    }
                 }
                 faces[f] = transferFacialExpression(this.facesOptions[f].Expression, this.faces[f], activation, eyebrow);
             }

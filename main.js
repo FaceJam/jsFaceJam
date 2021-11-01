@@ -92,6 +92,17 @@ function stopRecording() {
 }
 document.getElementById("stopRecording").style.display = "none";
 
+
+function startLiveRecording() {
+    faceCanvas.liveRecord(audio);
+}
+function stopLiveRecording() {
+    audio.stopRecordingRealtime();
+    faceCanvas.connectAudio(audio); // Pass audio along for playback
+}
+document.getElementById("stopLiveRecording").style.display = "none";
+
+
 $('.imageTable').hide();
 $('.toggle-image').on('click',function() {					
   $(this).text(function(_,currentText){

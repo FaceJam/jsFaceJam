@@ -15,6 +15,7 @@
     <script src="jsanov/wav.js"></script>
     <script src="jsanov/features.js"></script>
     <script src="jsanov/audio.js"></script>
+    <script src="jsanov/onlinebeat.js"></script>
     <script src="jsanov/applemusic.js"></script>
 
     <script src="matrixutils.js"></script>
@@ -32,7 +33,7 @@
 
     
 
-    <button class="toggle-image">&#9660; Step 1: Choose Face(s) Image 🧔👵🏿</button>
+    <button class="toggle-image" style="display:block">&#9660; Step 1: Choose Face(s) Image 🧔👵🏿</button>
     <div class="imageTable" id="imageTable">
         <table>
             <tr>
@@ -60,7 +61,7 @@
         </table>
     </div>
 
-    <button class="toggle-audio">&#9660; Step 2: Choose Tune 🎵</button>
+    <button class="toggle-audio" style="display:block">&#9660; Step 2: Choose Tune 🎵</button>
     <div class="audioTable" id="audioTable">
         <table>
             <tr>
@@ -94,6 +95,11 @@
                     <p><b>Record</b></p>
                     <button id="startRecording" style="width:50px; padding:0" onclick="startRecording()"><h1>⏺️</h1></button>
                     <button id="stopRecording" style="width:50px; padding:0" onclick="stopRecording()"><h1>⏹️</h1></button>
+                </td>
+                <td>
+                    <p><b>Live</b></p>
+                    <button id="startLiveRecording" style="width:50px; padding:0" onclick="startLiveRecording()"><h1>⏺️</h1></button>
+                    <button id="stopLiveRecording" style="width:50px; padding:0" onclick="stopLiveRecording()"><h1>⏹️</h1></button>
                 </td>
             </tr>
         </table>
