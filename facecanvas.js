@@ -394,7 +394,7 @@ class FaceCanvas {
         this.beat.startRecording("startLiveRecording", "stopLiveRecording", this.win, 3, 1, function(phase) {
             requestAnimationFrame(that.repaint.bind(that));
         });
-        progressBar.loadString = "Recording audio live";
+        progressBar.loadString = "Recording live audio (NOTE: Not yet optimized for mobile)";
     }
 
     updateTexture(texture) {
