@@ -1,4 +1,10 @@
 /**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
+
+/**
  * A function that compiles a particular shader
  * @param {object} gl WebGL handle
  * @param {string} shadersrc A string holding the GLSL source code for the shader

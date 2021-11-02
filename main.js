@@ -1,3 +1,8 @@
+/**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
 /** The file that puts everything together for running */
 (function() {
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||

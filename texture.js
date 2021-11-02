@@ -1,3 +1,8 @@
+/**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
 function isPowerOf2(value) {
     return (value & (value - 1)) == 0;
 }

@@ -1,4 +1,9 @@
 /**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
+/**
  * Web worker for computing a 3D embedding of the audio features
  */
 importScripts("jsanov/features.js");

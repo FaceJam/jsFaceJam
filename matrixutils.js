@@ -1,4 +1,9 @@
 /**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
+/**
  * Flatten a 2D array to a Float32Array
  * @param {2D array} X A 2D array
  */

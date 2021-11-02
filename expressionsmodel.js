@@ -1,3 +1,8 @@
+/**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
 const BBOX_PAD = 0.1;
 let N_LANDMARKS = 60;
 const EYEBROW_START = 17;

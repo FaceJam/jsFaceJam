@@ -1,4 +1,9 @@
 /**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
+/**
  * A class to show loading progress
  */
 

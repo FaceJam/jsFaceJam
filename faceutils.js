@@ -1,4 +1,9 @@
 /**
+ * Code copyright Christopher J. Tralie, 2021
+ * Attribution-NonCommercial-ShareAlike 4.0 International
+ */
+
+/**
  * Utilities for computing facial landmarks, transferring expressions, and
  * resizing facial images to fit the GL canvas
  */
