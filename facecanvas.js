@@ -688,6 +688,7 @@ class FaceCanvas {
                 let activation = 0;
                 if (this.liveAudio) {
                     eyebrow = 0.25*this.beat.phase*this.facesOptions[f].EyebrowEnergy;
+                    activation = this.beat.energy*this.facesOptions[f].FaceEnergy/100;
                 }
                 else {
                     if (idx < this.novfn.length) {
